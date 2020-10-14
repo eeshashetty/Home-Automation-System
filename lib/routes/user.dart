@@ -224,8 +224,9 @@ class _State extends State<User> {
                                     actions: [
                                       TextButton(
                                         onPressed: () {
+                                          print('Pressed');
                                           Navigator.of(context).pop();
-                                          _connect;
+                                          _connect(_device);
                                           setState(() => _device = value);
                                           },
                                         child: Text('YES'),
@@ -345,21 +346,21 @@ class _State extends State<User> {
         ),
     );
   }
+  bool high = false;
   void _sendMessage(code) async {
     connection.output.add(utf8.encode("$code"+"\r\n"));
     await connection.output.allSent;
-    show('Sent $code');
   }
 
-  void _connect() async {
+  void _connect(BluetoothDevice device) async {
     setState(() {
       _connected = false;
     });
-    if (_device == null) {
+    if (device == null) {
       show('No device selected');
     } else {
       if (!isConnected) {
-        await BluetoothConnection.toAddress(_device.address)
+        await BluetoothConnection.toAddress(device.address)
             .then((_connection) {
           show('Connected to Device!');
           connection = _connection;
