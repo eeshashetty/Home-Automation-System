@@ -14,6 +14,9 @@ class User extends StatefulWidget {
 
 class _State extends State<User> {
   // This widget is the root of your application.
+
+  String user = "Eesha Shetty";
+
   BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   FlutterBluetoothSerial _bluetooth = FlutterBluetoothSerial.instance;
@@ -118,83 +121,80 @@ class _State extends State<User> {
     return Scaffold(
       key: _scaffoldKey,
         body: Padding(
-          padding: const EdgeInsets.fromLTRB(20.0,80.0,0,0),
+          padding: const EdgeInsets.fromLTRB(0.0,55.0,0,0),
           child: Column(
           children: <Widget>[
             Align(
-              alignment: Alignment.centerLeft,
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                onPressed: () {Navigator.of(context).popAndPushNamed('/');},
+                icon: Icon(Icons.exit_to_app),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(30.0,0.0,30.0,0.0),
               child: Row(
-                children: [
-                  RichText(
-                  text: new TextSpan(
-                      style: Theme.of(context).textTheme.headline2,
+                children: <Widget>[
+                 CircleAvatar(radius: 30, backgroundImage: AssetImage('assets/images/pfp.jpeg'),),
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: RichText(
+                    text: new TextSpan(
+                      style: Theme.of(context).textTheme.bodyText1,
                       children: <TextSpan>[
-                        new TextSpan(text: 'Hello, '),
-                        new TextSpan(text: 'User!', style: TextStyle(fontWeight: FontWeight.bold))
-                      ]
+                        TextSpan(text: 'Welcome back!\n', style: TextStyle(fontSize: 20)),
+                        TextSpan(text: ' $user', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF6A6A6A)),),
+                      ],
+                    ),
                   ),
-          ),
-                  IconButton(
-                    icon: const Icon(Icons.logout),
-                    onPressed: () {
-                      Navigator.of(context).pushReplacementNamed('/');
-                    },
-                  ),
+                ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 2.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Welcome back', style: Theme.of(context).textTheme.bodyText2),
+              padding: const EdgeInsets.fromLTRB(35.0,30.0,20.0,0.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+              RichText(
+              text: new TextSpan(
+                  style: Theme.of(context).textTheme.headline1,
+          children: <TextSpan>[
+                  TextSpan(text: 'Enable Bluetooth\n', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),),
+                  TextSpan(text: _connected ? 'Connected' : 'Not Connected', style: TextStyle(fontSize: 12, color: _connected ? Colors.green : Colors.red),),
+                  ],
+              ),
+              ),
+
+                Padding(
+                  padding: EdgeInsets.only(right: 10),
+                  child: Switch(
+                    value: _enabled,
+                    onChanged:  (value) async {
+                      if(_enabled == false)
+                        init();
+                      if(_enabled) {
+                        await FlutterBluetoothSerial.instance
+                            .requestDisable();
+                      }
+                      setState(() {
+                        _enabled = value;
+                      });
+                    },
+                    // inactiveThumbColor: Colors.red,
+                    activeColor: Colors.blue,
+                  ),
+                )
+
+                ],
               ),
             ),
-            SizedBox(height: 30,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-            RichText(
-            text: new TextSpan(
-                style: Theme.of(context).textTheme.headline1,
-          children: <TextSpan>[
-                TextSpan(text: 'Enable Bluetooth\n', style: TextStyle(fontSize: 20),),
-                TextSpan(text: _connected ? 'Connected' : 'Not Connected', style: TextStyle(fontSize: 12, color: _connected ? Colors.green : Colors.red),),
-                ],
-            ),
-            ),
-
-              Padding(
-                padding: EdgeInsets.only(right: 25),
-                child: Switch(
-                  value: _enabled,
-                  onChanged:  (value) async {
-                    if(_enabled == false)
-                      init();
-                    if(_enabled) {
-                      await FlutterBluetoothSerial.instance
-                          .requestDisable();
-                    }
-                    setState(() {
-                      _enabled = value;
-                    });
-                  },
-                  // inactiveThumbColor: Colors.red,
-                  activeColor: Colors.blue,
-                ),
-              )
-
-              ],
-            ),
           Padding(
-            padding: const EdgeInsets.only(top: 20, right: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width*0.75,
+            padding: const EdgeInsets.only(top: 40, right: 35, left: 32),
+            child: Container(
+                  width: MediaQuery.of(context).size.width*0.88,
                   padding: EdgeInsets.only(right: 20),
-                  height: 44,
+                  height: 54,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black45),
                     borderRadius: BorderRadius.circular(9)
@@ -226,9 +226,10 @@ class _State extends State<User> {
                                         onPressed: () {
                                           print('Pressed');
                                           Navigator.of(context).pop();
-                                          _connect(_device);
                                           setState(() => _device = value);
-                                          },
+                                          _connect(_device);
+
+                                        },
                                         child: Text('YES'),
                                       ),
                                       TextButton(
@@ -248,98 +249,100 @@ class _State extends State<User> {
                       ),
                     ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.refresh),
-                  onPressed: () async {
-                    await getPairedDevices().then((value) =>
-                      show('Device List Refreshed'),
-                    );
-                  },
-                )
-              ],
-            ),
           ),
-            SizedBox(height: 100,),
-            RichText(
-              text: new TextSpan(
-                  style: Theme.of(context).textTheme.headline2,
-                  children: <TextSpan>[
-                    new TextSpan(text:
-                    p==1 ? 'Lights: ' :
-                    p==3 ? 'Lamp: '  :
-                    p==2 ? 'Fan: ' : 'assets/images/light.png'
-                    ),
-                    new TextSpan(text: (p==1?_toggle1:p==2?_toggle2:_toggle3) ? 'ON' : 'OFF', style: TextStyle(color: (p==1?_toggle1:p==2?_toggle2:_toggle3) ? Colors.green : Colors.red))
-                  ]
-              ),
-            ),
-            SizedBox(height: 40,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  onPressed: () {
-                    setState(()
-                    {
-                      p = p > 1 ? p - 1 : 3;
-                      print(p);
-                    }
-                    );
-                  },
-                ),
-                MaterialButton(
-                  onPressed: () {
-                    print('Sending $p');
-                    _sendMessage(p);
-                    setState(() {
-                    if(p==1)
-                      _toggle1 = !_toggle1;
-                    if(p==2)
-                      _toggle2 = !_toggle2;
-                    if(p==3)
-                      _toggle3 = !_toggle3;
-                    });},
-                  child: Container(
-                    height: 193,
-                    width: 179,
+            SizedBox(height: 61,),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  p!=1 ? Container(
+                    width: 32,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [ (p==1?_toggle1:p==2?_toggle2:_toggle3) ? Color(0xff191970) : Colors.black12, (p==1?_toggle1:p==2?_toggle2:_toggle3) ? Color(0xff4A4A8E) : Colors.black12] ,
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: BorderRadius.circular(9),
+                      border: Border.all(color: Color(0xff518CFD)),
+                      shape: BoxShape.circle,
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image(image: AssetImage(
-                          p==1 ? 'assets/images/light.png' :
-                          p==3 ? 'assets/images/lamp.png'  :
-                          p==2 ? 'assets/images/fan.png' : 'assets/images/light.png'
-                        ), width: 100),
-                        SizedBox(height: 15,),
-                        Text(  p==1 ? 'Lights' :
-                        p==3 ? 'Lamp'  :
-                        p==2 ? 'Fan' : 'assets/images/light.png'
-                        , style: Theme.of(context).textTheme.bodyText1),
-                      ],
+                    child: IconButton(
+                      icon: Padding(
+                        padding: const EdgeInsets.only(left: 3.0),
+                        child: Icon(Icons.arrow_back_ios, color: Color(0xff518CFD),),
+                      ),
+                      iconSize: 13,
+                      onPressed: () {
+                        setState(()
+                        {
+                          p = p > 1 ? p - 1 : 3;
+                          print(p);
+                        }
+                        );
+                      },
+                    ),
+                  ) : Container(width: 32,),
+                  MaterialButton(
+                    onPressed: () {
+                      print('Sending $p');
+                      _sendMessage(p);
+                      setState(() {
+                      if(p==1)
+                        _toggle1 = !_toggle1;
+                      if(p==2)
+                        _toggle2 = !_toggle2;
+                      if(p==3)
+                        _toggle3 = !_toggle3;
+                      });},
+                    child: Container(
+                      height: 261,
+                      width: 183,
+                      decoration: BoxDecoration(
+                          color: (p==1?_toggle1:p==2?_toggle2:_toggle3) ? Color(0xffE5EEFF) : Color(0xffF0F0F0),
+                        borderRadius: BorderRadius.circular(9),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 76.0),
+                            child: Image(image: AssetImage(
+                              p==1 ? (_toggle1 ? 'assets/images/lightson.png' : 'assets/images/lightsoff.png') :
+                              p==3 ? (_toggle3 ? 'assets/images/lampon.png' : 'assets/images/lampoff.png')  :
+                              p==2 ? (_toggle2 ? 'assets/images/fanon.png' : 'assets/images/fanoff.png') : 'assets/images/fanoff.png'
+                            ), width: 100),
+                          ),
+                          Container(
+                            width: 183,
+                            height: 43,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(9), bottomRight: Radius.circular(9)),
+                              color: (p==1?_toggle1:p==2?_toggle2:_toggle3) ? Color(0xff518CFD) : Color(0xffC3C3C3),
+                            ),
+                            child: Text((p==1?_toggle1:p==2?_toggle2:_toggle3) ? 'ON' : 'OFF', style: TextStyle(color: Colors.white, fontFamily: 'Montserrat', fontWeight: FontWeight.w600, fontSize: 17.44),),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: () {
-                    setState(()
-                    {
-                      p = p < 3 ? p + 1 : 1;
-                      print(p);
-                    }
-                    );
-                  },
-                ),
-              ],
+                  p!=3 ? Container(
+                    width: 32,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xff518CFD)),
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_forward_ios, color: Color(0xff518CFD)),
+                      iconSize: 13,
+                      onPressed: () {
+                        setState(()
+                        {
+                          p = p < 3 ? p + 1 : 1;
+                          print(p);
+                        }
+                        );
+                      },
+                    ),
+                  ) : Container(width: 32,),
+                ],
+              ),
             ),
             ],
           ),

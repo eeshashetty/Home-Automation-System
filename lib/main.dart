@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'routes/user.dart';
+import 'routes/signup.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,15 +16,17 @@ class MyApp extends StatelessWidget {
       title: 'Home Automation System',
       theme: ThemeData(
         textTheme: TextTheme(
-          headline1: TextStyle(fontFamily: 'Montserrat', fontSize: 17.44, fontWeight: FontWeight.w500, color: Color(0xFF191970)),
+          headline1: TextStyle(fontFamily: 'Montserrat', fontSize: 17.44, fontWeight: FontWeight.w500, color: Color(0xFF518CFD)),
           headline2: TextStyle(fontFamily: 'Montserrat', fontSize: 25.44, fontWeight: FontWeight.w400, color: Colors.black),
-          bodyText1: TextStyle(fontFamily: 'Montserrat', fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white),
-          bodyText2: TextStyle(fontFamily: 'Montserrat', fontSize: 10.44, fontWeight: FontWeight.w500, color: Color(0xFF191970)),
+          headline3: TextStyle(fontFamily: 'Montserrat', fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white),
+          bodyText1: TextStyle(fontFamily: 'Montserrat', fontSize: 26, fontWeight: FontWeight.w600, color: Colors.black),
+          bodyText2: TextStyle(fontFamily: 'Montserrat', fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF6A6A6A)),
 
         ),
       ),
       home: MyHomePage(title: 'Home Automation System'),
       routes: {
+        '/signup': (_) => new SignUp(),
         '/user': (_) => new User(),
       },
     );
@@ -60,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Column(
               children: [
                 SizedBox(height: 200,),
-                Image(image: AssetImage('assets/images/logo.png'), width: 187,),
+                Image(image: AssetImage('assets/images/logo_blue.png'), width: 187,),
                 SizedBox(height: 9,),
                 Text('Home Automation \nSystem', style: Theme.of(context).textTheme.headline1, textAlign: TextAlign.center,),
                 SizedBox(height: 57,),
@@ -86,10 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: EdgeInsets.all(0.0),
                     child: Ink(
                       decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: [Color(0xff191970), Color(0xff4A4A8E)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
+                          color: Color(0xFF518CFD),
                           borderRadius: BorderRadius.circular(9.0)
                       ),
                       child: Container(
@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Text(
                           "Get Started",
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyText1
+                          style: Theme.of(context).textTheme.headline3
                         ),
                       ),
                     ),
