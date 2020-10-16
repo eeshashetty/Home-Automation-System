@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 50.0,
                   child: RaisedButton(
                     onPressed: () {
-                      Navigator.of(context).pushReplacementNamed('/user');
+                      Navigator.of(context).pushReplacementNamed('/signup');
                       },
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
                     padding: EdgeInsets.all(0.0),

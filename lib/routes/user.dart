@@ -250,7 +250,7 @@ class _State extends State<User> {
                     ),
                 ),
           ),
-            SizedBox(height: 61,),
+            SizedBox(height: 71,),
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Row(
@@ -290,19 +290,19 @@ class _State extends State<User> {
                       if(p==3)
                         _toggle3 = !_toggle3;
                       });},
-                    child: Container(
-                      height: 261,
-                      width: 183,
-                      decoration: BoxDecoration(
-                          color: (p==1?_toggle1:p==2?_toggle2:_toggle3) ? Color(0xffE5EEFF) : Color(0xffF0F0F0),
-                        borderRadius: BorderRadius.circular(9),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 76.0),
-                            child: Image(image: AssetImage(
+                          Container(
+                            width: 183,
+                            height: 218,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: (p==1?_toggle1:p==2?_toggle2:_toggle3) ? Color(0xffE5EEFF) : Color(0xffF0F0F0),
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(9), topRight: Radius.circular(9)),
+                            ),
+                            child: Image(
+                                image: AssetImage(
                               p==1 ? (_toggle1 ? 'assets/images/lightson.png' : 'assets/images/lightsoff.png') :
                               p==3 ? (_toggle3 ? 'assets/images/lampon.png' : 'assets/images/lampoff.png')  :
                               p==2 ? (_toggle2 ? 'assets/images/fanon.png' : 'assets/images/fanoff.png') : 'assets/images/fanoff.png'
@@ -321,7 +321,6 @@ class _State extends State<User> {
                         ],
                       ),
                     ),
-                  ),
                   p!=3 ? Container(
                     width: 32,
                     decoration: BoxDecoration(
@@ -344,9 +343,69 @@ class _State extends State<User> {
                 ],
               ),
             ),
+            SizedBox(height: 76,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                p==1 ? Container(
+                  width: 15,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xff518CFD)),
+                    borderRadius: BorderRadius.circular(9),
+                    color:  Color(0xff518CFD),
+                    shape: BoxShape.rectangle,
+                  ),
+                ) : Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xff518CFD)),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                SizedBox(width: 8,),
+                p==2 ? Container(
+                  width: 15,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xff518CFD)),
+                    borderRadius: BorderRadius.circular(9),
+                    color:  Color(0xff518CFD),
+                    shape: BoxShape.rectangle,
+                  ),
+                ) : Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xff518CFD)),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                SizedBox(width: 8,),
+                p==3 ? Container(
+                  width: 15,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xff518CFD)),
+                    borderRadius: BorderRadius.circular(9),
+                    color:  Color(0xff518CFD),
+                    shape: BoxShape.rectangle,
+                  ),
+                ) : Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xff518CFD)),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ],
+            )
             ],
           ),
         ),
+
     );
   }
   bool high = false;
