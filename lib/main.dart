@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Home Automation System',
       theme: ThemeData(
+        backgroundColor: Colors.white,
         textTheme: TextTheme(
           headline1: TextStyle(fontFamily: 'Montserrat', fontSize: 17.44, fontWeight: FontWeight.w500, color: Color(0xFF518CFD)),
           headline2: TextStyle(fontFamily: 'Montserrat', fontSize: 25.44, fontWeight: FontWeight.w400, color: Colors.black),
@@ -27,7 +28,6 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(title: 'Home Automation System'),
       routes: {
         '/signup': (_) => new SignUp(),
-        '/user': (_) => new User(),
       },
     );
   }
@@ -56,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

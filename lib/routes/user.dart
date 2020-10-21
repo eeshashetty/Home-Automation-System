@@ -7,15 +7,18 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
+
 class User extends StatefulWidget {
+  final String user;
+
+  const User({Key key, this.user}) : super(key: key);
+
   @override
   _State createState() => _State();
 }
 
 class _State extends State<User> {
   // This widget is the root of your application.
-
-  String user = "Eesha Shetty";
 
   BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -118,6 +121,7 @@ class _State extends State<User> {
 
 
   Widget build(BuildContext context){
+    String user = widget.user;
     return Scaffold(
       key: _scaffoldKey,
         body: Padding(
