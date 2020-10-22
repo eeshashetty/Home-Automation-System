@@ -136,7 +136,7 @@ class _State extends State<SignUp> {
                           padding: EdgeInsets.only(right: 10),
                           decoration: BoxDecoration(
                             border: Border(
-                                right: BorderSide(color: Colors.black)
+                                right: BorderSide(color: Color(0xffC3C3C3))
                             ),
                           ),
                           child: DropdownButtonHideUnderline(
@@ -203,7 +203,7 @@ class _State extends State<SignUp> {
                     ),
                   ),
           ),
-          SizedBox(height: 160,),
+          SizedBox(height: MediaQuery.of(context).size.height*0.13,),
           Container(
             height: 50.0,
             child: RaisedButton(
